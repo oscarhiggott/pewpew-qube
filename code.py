@@ -1,5 +1,5 @@
 import pew
-import amp_display
+from state_to_permutation import state_to_permindices
 import aether
 
 
@@ -46,4 +46,4 @@ if __name__ == '__main__':
     while True:
         pew.show(screen)
         keys = wait_for_key()
-        screen = update(amp_display.state_to_permindices(state), screen)
+        screen = update(state_to_permindices(state), screen)
