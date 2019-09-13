@@ -20,7 +20,6 @@ def polar_to_permindices(r, theta):
 
 
 def state_to_permindices(state):
-    print(state)
     polarvector = ((sqrt(x * x + y * y), atan2(y, x)) for x, y in state)
     return [polar_to_permindices(r, theta) for r, theta in polarvector]
 

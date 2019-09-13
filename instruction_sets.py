@@ -45,7 +45,8 @@ LEVELS = {
 
 class InstructionSet:
     def __init__(self, level=0):
-        self.goal_screen = IBMQ
+        self.goal_screen = update(((1,0),(0,0),(0,0),(0,0)),
+                           pew.Pix.from_iter(IBMQ))
         self.length = LEVELS[level]['length']
         self.gates = LEVELS[level]['gates']
         self.state = self.get_random_initial_state()
@@ -57,7 +58,7 @@ class InstructionSet:
 
     def get_current_screen(self):
         return update(state_to_permindices(self.state),
-                      pew.Pix.from_iter(self.goal_screen))
+                      self.goal_screen)
 
     def key_pressed(self, key):
         key &= ~0x20
