@@ -44,9 +44,9 @@ LEVELS = {
 
 
 class InstructionSet:
-    def __init__(self, level=0):
+    def __init__(self, level=0, goal=IBMQ):
         self.goal_screen = update(((1,0),(0,0),(0,0),(0,0)),
-                           pew.Pix.from_iter(IBMQ))
+                           pew.Pix.from_iter(goal))
         self.length = LEVELS[level]['length']
         self.gates = LEVELS[level]['gates']
         self.state = self.get_random_initial_state()
