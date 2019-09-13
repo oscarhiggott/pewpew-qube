@@ -1,4 +1,6 @@
 import pew
+import amp_display
+import aether
 
 
 OFFSETS = ((0, 0), (4, 0), (0, 4), (4, 4))
@@ -28,18 +30,20 @@ def wait_for_key():
     return keys
 
 
-pew.init()
-screen = pew.Pix()
-screen.pixel(0, 0, 3)
-screen.pixel(4, 4, 3)
-screen.pixel(0, 4, 3)
-screen.pixel(4, 0, 3)
+if __name__ == '__main__':
+    pew.init()
+    screen = pew.Pix()
+    screen.pixel(0, 0, 3)
+    screen.pixel(4, 4, 3)
+    screen.pixel(0, 4, 3)
+    screen.pixel(4, 0, 3)
 
-while True:
-    pew.show(screen)
-    keys = wait_for_key()
-    if keys & pew.K_O:
-        values = [[1, 0], [0, 0], [0, 0], [0, 0]]
-    if keys & pew.K_X:
-        values = [[0, 1], [0, 0], [0, 0], [0, 0]]
-    screen = update(values, screen)
+    qc = aether.QuantumCircuit(2,2)
+    qc.h(0)
+    qc.h(1)
+    state = aether.simulate(qc, get='statevector')
+
+    while True:
+        pew.show(screen)
+        keys = wait_for_key()
+        screen = update(amp_display.state_to_permindices(state), screen)
