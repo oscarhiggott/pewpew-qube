@@ -82,6 +82,7 @@ def main_loop(ins):
     
     # initialization stage
     screen = ins.initialization(screen)
+    pew.show(screen)
 
     # flags used throughout the loop
     bool_loop = True
