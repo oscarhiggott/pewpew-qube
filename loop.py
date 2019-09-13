@@ -4,6 +4,7 @@ from aether import QuantumCircuit, simulate
 '''
 Q
 '''
+# THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
 #class instruction_set_H_CX:
 #    def __init__(self):
 #        pass
@@ -12,10 +13,10 @@ Q
 #        print (key)
 #        return screen
 #
-#    def initialization():
-#        pass
+#    def initialization(self,screen):
+#        return screeen
 
-final_screen = pew.Pix.from_iter((
+final_screen_1 = pew.Pix.from_iter((
     (1,0,0,0,0,0,0,1),
     (0,2,0,0,0,0,2,0),
     (0,0,3,0,0,3,0,0),
@@ -24,6 +25,46 @@ final_screen = pew.Pix.from_iter((
     (0,0,3,0,0,3,0,0),
     (0,2,0,0,0,0,2,0),
     (1,0,0,0,0,0,0,1),
+))
+final_screen_2 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,1,0,0,0,0,1,0),
+    (0,0,2,0,0,2,0,0),
+    (0,0,0,3,3,0,0,0),
+    (0,0,0,3,3,0,0,0),
+    (0,0,2,0,0,2,0,0),
+    (0,1,0,0,0,0,1,0),
+    (0,0,0,0,0,0,0,0),
+))
+final_screen_3 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,1,0,0,1,0,0),
+    (0,0,0,2,2,0,0,0),
+    (0,0,0,2,2,0,0,0),
+    (0,0,1,0,0,1,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+))
+final_screen_4 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,1,1,0,0,0),
+    (0,0,0,1,1,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+))
+final_screen_5 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
 ))
 
     
@@ -39,6 +80,9 @@ def main_loop(ins):
     pew.init()
     screen = pew.Pix()
     
+    # initialization stage
+    screen = ins.initialization(screen)
+
     # flags used throughout the loop
     bool_loop = True
     keys      = 0 
@@ -80,5 +124,14 @@ def main_loop(ins):
         pew.tick(0.1)
         
     # the program has been terminated. 
-    # display the final state
-    pew.show(final_screen)
+    # display the final sequence
+    pew.show(final_screen_1)
+    pew.tick(0.2)
+    pew.show(final_screen_2)
+    pew.tick(0.2)
+    pew.show(final_screen_3)
+    pew.tick(0.2)
+    pew.show(final_screen_4)
+    pew.tick(0.2)
+    pew.show(final_screen_5)
+    pew.tick(0.2)

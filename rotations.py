@@ -2,6 +2,7 @@ import pew
 from aether import QuantumCircuit
 from math import pi, atan2
 from propagate_statevector import propagate_statevector
+from random import randint
 
 pew.init()
 screen = pew.Pix()
@@ -79,7 +80,43 @@ def make_image(state):
             image.append(blocks[2*i][j] + blocks[2*i+1][j])
     
     return tuple(tuple(x) for x in image)
+
+def random_state():
     
+    qc = QuantumCircuit(2)
+    
+    for i in range(5):
+    
+        gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,9)]
+    
+        if gate[0] == 'x':
+            qc.h(0)
+        elif gate[0] == 'y':
+            qc.rx(pi/2,0)
+        
+        if gate[1] == 'x':
+            qc.h(1)
+        elif gate[1] == 'y':
+            qc.rx(pi/2,1)
+        
+        qc.cx(0,1)
+        qc.h(1)
+        qc.rx(pi)
+        qc.h(1)
+        qc.cx(0,1)
+        
+        if gate[0] == 'x':
+            qc.h(0)
+        elif gate[0] == 'y':
+            qc.rx(-pi/2,0)
+        
+        if gate[1] == 'x':
+            qc.h(1)
+        elif gate[1] == 'y':
+            qc.rx(-pi/2,1)
+    
+    state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
+    return propagate_statevector(state, qc)
     
     
     
