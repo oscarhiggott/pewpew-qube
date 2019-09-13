@@ -108,10 +108,10 @@ def main_loop(ins):
             elif keys & pew.K_UP:
                 value = pew.K_UP
             elif keys & pew.K_O:
-                value = pew.K_O
-                bool_loop = False
-    
-            # call instruction set here
+                break
+            else:
+                value = 0
+
             ins.key_pressed(value)
     
         elif keys == 0:

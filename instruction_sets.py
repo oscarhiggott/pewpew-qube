@@ -30,7 +30,7 @@ H_CNOT_GATES = {
 LEVELS = {
     0: {
         'gates': X_CNOT_GATES,
-        'length': 4
+        'length': 3
     },
     1: {
         'gates': H_CNOT_GATES,
