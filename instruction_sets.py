@@ -3,7 +3,7 @@ from aether import QuantumCircuit, simulate
 import pew
 
 from goal_displays import IBMQ
-from code import update, state_to_permindices
+from permute_screen import update, state_to_permindices
 from propagate_statevector import propagate_statevector
 
 
@@ -24,17 +24,18 @@ class InstructionSet:
 
     def get_random_initial_state(self):
         qc = QuantumCircuit(2, 0)
-        qc.data = random.choices(GATES.values(), k=self.length)
+        qc.data = [random.choice(list(GATES.values())) for _ in range(self.length)]
         return simulate(qc, get='statevector')
 
     def get_current_screen(self):
         return update(state_to_permindices(self.state),
-                      self.goal_screen)
+                      pew.Pix.from_iter(self.goal_screen))
 
-    def initialization(self):
+    def initialization(self, screen):
         return self.get_current_screen()
 
     def key_pressed(self, key, screen):
+        key &= ~0x20
         qc = QuantumCircuit(2, 0)
         qc.data.append(GATES[key])
         self.state = propagate_statevector(self.state, qc)
