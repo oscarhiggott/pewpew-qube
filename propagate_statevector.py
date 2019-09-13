@@ -1,10 +1,6 @@
 import pew
 from aether import QuantumCircuit, simulate
 
-'''
-Q
-'''
-
 def propagate_statevector(vec,qc):
     """
     take an initial statevector 'vec', initialize

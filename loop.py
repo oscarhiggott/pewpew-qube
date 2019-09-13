@@ -1,9 +1,6 @@
 import pew
 from aether import QuantumCircuit, simulate
 
-'''
-Q
-'''
 # THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
 #class instruction_set_H_CX:
 #    def __init__(self):
@@ -122,7 +119,7 @@ def main_loop(ins):
     
         # update the screen and wait for 100ms
         pew.show(screen) 
-        pew.tick(0.1)
+        pew.tick(0.02)
         
     # the program has been terminated. 
     # display the final sequence

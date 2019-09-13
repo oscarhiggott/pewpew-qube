@@ -36,7 +36,7 @@ def simulate(c,shots=1024,get='counts'):
   k[0] = (1.0,0.0)
   for gate in c.data:
     if gate[0]=='init':
-      if type(gate[1][0])!=list:
+      if not isinstance(gate[1][0],(list,tuple)):
         k = [(e,0) for e in gate[1]]
       else:
         k = [e for e in gate[1]]
