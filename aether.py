@@ -30,7 +30,8 @@ def simulate(c,shots=1024,get='counts'):
   def t(x,y,T):
     return ((x[0]*cos(T/2)+y[1]*sin(T/2),x[1]*cos(T/2)-y[0]*sin(T/2)),
             (y[0]*cos(T/2)+x[1]*sin(T/2),y[1]*cos(T/2)-x[0]*sin(T/2)))
-  g =(get=='memory')-(get=='statevector')
+  if get!='statevector':
+      raise NotImplementedError()
   k = [(0,0) for _ in range(2**c.n)]
   k[0] = (1.0,0.0)
   for gate in c.data:
@@ -72,31 +73,4 @@ def simulate(c,shots=1024,get='counts'):
         k[1],k[3]=k[3],k[1]
       else:
         k[2],k[3]=k[3],k[2]
-  if g==-1:
-    return k
-  else:
-    if c.n==1:
-      assert((('m',0,0)==c.data[-1]) and (('m',0,0) not in c.data[:-1]))
-    else:
-      assert((('m',0,0)in c.data) and (('m',1,1) in c.data))
-      m = [False,False]
-      for gate in c.data:
-        for j in range(2):
-          assert( not ((gate[-1]==j) and m[j]) )
-          m[j] = (gate==('m',j,j))
-    ps=[e[0]**2+e[1]**2 for e in k]
-    if g==0:
-      return {('{0:0'+str(c.n)+'b}').format(j):int(p*shots) for j,p in enumerate(ps)}
-    else:
-      m=[]
-      for _ in range(shots):
-        cumu=0
-        un=True
-        r=random.random()
-        for j,p in enumerate(ps):
-          cumu += p
-          if r<cumu and un:
-            out=('{0:0'+str(c.n)+'b}').format(j)
-            m.append(out)
-            un=False
-      return m
+  return k
