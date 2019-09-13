@@ -1,11 +1,11 @@
 import pew
 from aether import QuantumCircuit
-from math import pi, atan2
+from math import pi, atan2, sqrt
 from propagate_statevector import propagate_statevector
 from random import randint
 
-pew.init()
-screen = pew.Pix()
+#pew.init()
+#screen = pew.Pix()
 
 def make_circuit(gate):
     qc = QuantumCircuit(2)
@@ -42,7 +42,8 @@ def rot90(block):
     return list(zip(*reversed(block)))
 
 def make_block(c_num):
-    amp, phi = (norm(c_num), atan2(c_num[1], c_num[0]))
+    amp = sqrt(c_num[0]*c_num[0] + c_num[1]*c_num[1])
+    phi = atan2(c_num[1], c_num[0])
     
     if amp < 0.01:
         phi = 0
@@ -87,7 +88,7 @@ def random_state():
     
     for i in range(5):
     
-        gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,9)]
+        gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,8)]
     
         if gate[0] == 'x':
             qc.h(0)
@@ -101,7 +102,7 @@ def random_state():
         
         qc.cx(0,1)
         qc.h(1)
-        qc.rx(pi)
+        qc.rx(pi,1)
         qc.h(1)
         qc.cx(0,1)
         
