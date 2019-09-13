@@ -38,7 +38,7 @@ LEVELS = {
     },
     2: {
         'gates': ALL_GATES,
-        'length': 3
+        'length': 4
     }
 }
 

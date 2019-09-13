@@ -1,20 +1,19 @@
 import pew
-from aether import QuantumCircuit, simulate
 
-'''
-Q
-'''
-# THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
-#class instruction_set_H_CX:
-#    def __init__(self):
-#        pass
-#    
-#    def key_pressed(self, key, screen):
-#        print (key)
-#        return screen
-#
-#    def initialization(self,screen):
-#        return screeen
+
+"""
+THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
+class instruction_set_H_CX:
+   def __init__(self):
+       self.state = <initial_state>
+
+   def key_pressed(self, key):
+       # Update self.state here
+       
+   def get_current_screen(self):
+       # Calculate screen using current self.state
+       return screen
+"""
 
 final_screen_1 = pew.Pix.from_iter((
     (1,0,0,0,0,0,0,1),
@@ -78,14 +77,12 @@ def main_loop(ins):
     """
     # initialize PewPew console
     pew.init()
-    screen = pew.Pix()
     
     # initialization stage
     pew.show(ins.get_current_screen())
 
     # flags used throughout the loop
     bool_loop = True
-    keys = 0
     old_keys = 0
     
     while bool_loop:
@@ -121,7 +118,7 @@ def main_loop(ins):
     
         # update the screen and wait for 100ms
         pew.show(ins.get_current_screen())
-        pew.tick(0.1)
+        pew.tick(0.05)
         
     # the program has been terminated. 
     # display the final sequence
