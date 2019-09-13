@@ -1,4 +1,4 @@
-from math import atan
+from math import atan2
 
 from aether import QuantumCircuit, simulate
 
@@ -14,17 +14,7 @@ PERM_MAP = {
 
 
 def complex_to_polar(x, y):
-    theta = None
-    try:
-        theta = atan(y/x)
-    except ZeroDivisionError:
-        if y == 0.:
-            theta = 0.
-        elif y > 0.:
-            theta = atan(float('Inf'))
-        elif y < 0.:
-            theta = atan(float('-Inf'))
-    return (x**2 + y**2)**0.5, theta
+    return (x**2 + y**2)**0.5, atan2(y,x)
 
 
 def statevector_to_polarvector(state):
