@@ -81,13 +81,12 @@ def main_loop(ins):
     screen = pew.Pix()
     
     # initialization stage
-    screen = ins.initialization(screen)
-    pew.show(screen)
+    pew.show(ins.get_current_screen())
 
     # flags used throughout the loop
     bool_loop = True
-    keys      = 0 
-    old_keys  = 0
+    keys = 0
+    old_keys = 0
     
     while bool_loop:
         # get the pressed keys
@@ -113,7 +112,7 @@ def main_loop(ins):
                 bool_loop = False
     
             # call instruction set here
-            screen = ins.key_pressed(value, screen)
+            ins.key_pressed(value)
     
         elif keys == 0:
             # this is necessary to be able to push 
@@ -121,7 +120,7 @@ def main_loop(ins):
             old_keys = keys
     
         # update the screen and wait for 100ms
-        pew.show(screen) 
+        pew.show(ins.get_current_screen())
         pew.tick(0.1)
         
     # the program has been terminated. 

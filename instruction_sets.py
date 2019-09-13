@@ -12,12 +12,12 @@ GATES = {
     pew.K_DOWN: ('x', 1),
     pew.K_LEFT: ('h', 0),
     pew.K_RIGHT: ('h', 1),
-    pew.K_X: ('cx', 0)
+    pew.K_X: ('cx', 1)
 }
 
 
 class InstructionSet:
-    def __init__(self, length=4):
+    def __init__(self, length=2):
         self.goal_screen = IBMQ
         self.length = length
         self.state = self.get_random_initial_state()
@@ -31,12 +31,10 @@ class InstructionSet:
         return update(state_to_permindices(self.state),
                       pew.Pix.from_iter(self.goal_screen))
 
-    def initialization(self, screen):
-        return self.get_current_screen()
-
-    def key_pressed(self, key, screen):
+    def key_pressed(self, key):
         key &= ~0x20
+        if key == 0:
+            return
         qc = QuantumCircuit(2, 0)
         qc.data.append(GATES[key])
         self.state = propagate_statevector(self.state, qc)
-        return self.get_current_screen()
