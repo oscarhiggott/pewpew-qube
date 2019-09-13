@@ -1,11 +1,11 @@
 import pew
 from aether import QuantumCircuit
-from math import pi, atan2
+from math import pi, atan2, sqrt
 from propagate_statevector import propagate_statevector
 from random import randint
 
-pew.init()
-screen = pew.Pix()
+#pew.init()
+#screen = pew.Pix()
 
 def make_circuit(gate):
     qc = QuantumCircuit(2)
@@ -39,10 +39,18 @@ def make_circuit(gate):
     return qc
 
 def rot90(block):
-    return list(zip(*reversed(block)))
+    res = []
+    for i in range(len(block)):
+        transposed = []
+        for col in block:
+            transposed.append(col[i])
+        transposed.reverse()
+        res.append(transposed)
+    return res
 
 def make_block(c_num):
-    amp, phi = (abs(c_num), atan2(c_num.imag, c_num.real))
+    amp = sqrt(c_num[0]*c_num[0] + c_num[1]*c_num[1])
+    phi = atan2(c_num[1], c_num[0])
     
     if amp < 0.01:
         phi = 0
@@ -71,7 +79,7 @@ def make_block(c_num):
 def make_image(state):
     blocks = []
     for num in state:
-        blocks.append(make_block(num[0] + num[1]*1j))
+        blocks.append(make_block(num))
     
     image = []
     
@@ -87,7 +95,7 @@ def random_state():
     
     for i in range(5):
     
-        gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,9)]
+        gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,8)]
     
         if gate[0] == 'x':
             qc.h(0)
@@ -101,7 +109,7 @@ def random_state():
         
         qc.cx(0,1)
         qc.h(1)
-        qc.rx(pi)
+        qc.rx(pi,1)
         qc.h(1)
         qc.cx(0,1)
         
@@ -117,7 +125,45 @@ def random_state():
     
     state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     return propagate_statevector(state, qc)
+
+
+class instruction_set_XYZ:
+    def __init__(self):
+        self.key_hist = []
+        self.state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     
+    def key_pressed(self, key, screen):
+        if key == pew.K_UP:
+            self.key_hist = []
+        elif key == pew.K_LEFT or key == pew.K_DOWN or key == pew.K_RIGHT:
+            self.key_hist.append(key)
+            if len(self.key_hist) == 2:
+                if self.key_hist[0] == pew.K_LEFT:
+                    gate = 'x'
+                elif self.key_hist[0] == pew.K_LEFT:
+                    gate = 'y'
+                else:
+                    gate = 'z'
+                
+                if self.key_hist[1] == pew.K_LEFT:
+                    gate = gate + 'x'
+                elif self.key_hist[1] == pew.K_LEFT:
+                    gate = gate + 'y'
+                else:
+                    gate = gate + 'z'
+                
+                self.state = propagate_statevector(self.state, make_circuit(gate))
+                screen = make_image(self.state)
+                self.key_hist = []
+        elif key == pew.K_X:
+            self.__init__()
+            self.initialization(screen)
+        return screen
+
+    def initialization(self,screen):
+        self.state = random_state()
+        screen = make_image(self.state)
+        return screen
     
     
     
