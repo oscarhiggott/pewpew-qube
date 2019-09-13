@@ -117,7 +117,45 @@ def random_state():
     
     state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     return propagate_statevector(state, qc)
+
+
+class instruction_set_XYZ:
+    def __init__(self):
+        self.key_hist = []
+        self.state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     
+    def key_pressed(self, key, screen):
+        if key == pew.K_UP:
+            self.key_hist = []
+        elif key == pew.K_LEFT or key == pew.K_DOWN or key == pew.K_RIGHT:
+            self.key_hist.append(key)
+            if len(self.key_hist) == 2:
+                if self.key_hist[0] == pew.K_LEFT:
+                    gate = 'x'
+                elif self.key_hist[0] == pew.K_LEFT:
+                    gate = 'y'
+                else:
+                    gate = 'z'
+                
+                if self.key_hist[1] == pew.K_LEFT:
+                    gate = gate + 'x'
+                elif self.key_hist[1] == pew.K_LEFT:
+                    gate = gate + 'y'
+                else:
+                    gate = gate + 'z'
+                
+                self.state = propagate_statevector(self.state, make_circuit(gate))
+                screen = make_image(self.state)
+                self.key_hist = []
+        elif key == pew.K_X:
+            self.__init__()
+            self.initialization(screen)
+        return screen
+
+    def initialization(self,screen):
+        self.state = random_state()
+        screen = make_image(self.state)
+        return screen
     
     
     
