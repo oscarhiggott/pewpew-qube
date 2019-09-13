@@ -4,8 +4,8 @@ from math import pi, atan2, sqrt
 from propagate_statevector import propagate_statevector
 from random import randint
 
-#pew.init()
-#screen = pew.Pix()
+pi2 = 0.785398
+#pi2 = 1.570796
 
 def make_circuit(gate):
     qc = QuantumCircuit(2)
@@ -13,28 +13,28 @@ def make_circuit(gate):
     if gate[0] == 'x':
         qc.h(0)
     elif gate[0] == 'y':
-        qc.rx(pi/2,0)
+        qc.rx(pi2,0)
     
     if gate[1] == 'x':
         qc.h(1)
     elif gate[1] == 'y':
-        qc.rx(pi/2,1)
+        qc.rx(pi2,1)
     
     qc.cx(0,1)
     qc.h(1)
-    qc.rx(pi)
+    qc.rx(pi,1)
     qc.h(1)
     qc.cx(0,1)
     
     if gate[0] == 'x':
         qc.h(0)
     elif gate[0] == 'y':
-        qc.rx(-pi/2,0)
+        qc.rx(-pi2,0)
     
     if gate[1] == 'x':
         qc.h(1)
     elif gate[1] == 'y':
-        qc.rx(-pi/2,1)
+        qc.rx(-pi2,1)
     
     return qc
 
@@ -66,12 +66,12 @@ def make_block(c_num):
     
     if 1.4 < phi < 1.7:
         block = rot90(block)
-    elif 3< phi < 3.2:
+        block = rot90(block)
+        block = rot90(block)
+    elif 3. < phi < 3.2 or -3. > phi > -3.2:
         block = rot90(block)
         block = rot90(block)
     elif -1.5 > phi > -1.7:
-        block = rot90(block)
-        block = rot90(block)
         block = rot90(block)
     
     return block
@@ -81,51 +81,26 @@ def make_image(state):
     for num in state:
         blocks.append(make_block(num))
     
-    image = []
+    image = pew.Pix()
     
     for i in range(2):
         for j in range(4):
-            image.append(blocks[2*i][j] + blocks[2*i+1][j])
+            tmp = blocks[2*i][j] + blocks[2*i+1][j]
+            for x in range(8):
+                image.pixel(x,4*i+j,tmp[x])
     
-    return tuple(tuple(x) for x in image)
+    return image 
 
 def random_state():
     
     qc = QuantumCircuit(2)
+    state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     
     for i in range(5):
-    
         gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,8)]
-    
-        if gate[0] == 'x':
-            qc.h(0)
-        elif gate[0] == 'y':
-            qc.rx(pi/2,0)
-        
-        if gate[1] == 'x':
-            qc.h(1)
-        elif gate[1] == 'y':
-            qc.rx(pi/2,1)
-        
-        qc.cx(0,1)
-        qc.h(1)
-        qc.rx(pi,1)
-        qc.h(1)
-        qc.cx(0,1)
-        
-        if gate[0] == 'x':
-            qc.h(0)
-        elif gate[0] == 'y':
-            qc.rx(-pi/2,0)
-        
-        if gate[1] == 'x':
-            qc.h(1)
-        elif gate[1] == 'y':
-            qc.rx(-pi/2,1)
-    
-    state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
-    return propagate_statevector(state, qc)
-
+        qc = make_circuit(gate)
+        state = propagate_statevector(state, qc)
+    return state
 
 class instruction_set_XYZ:
     def __init__(self):
@@ -140,18 +115,18 @@ class instruction_set_XYZ:
             if len(self.key_hist) == 2:
                 if self.key_hist[0] == pew.K_LEFT:
                     gate = 'x'
-                elif self.key_hist[0] == pew.K_LEFT:
+                elif self.key_hist[0] == pew.K_DOWN:
                     gate = 'y'
                 else:
                     gate = 'z'
                 
                 if self.key_hist[1] == pew.K_LEFT:
                     gate = gate + 'x'
-                elif self.key_hist[1] == pew.K_LEFT:
+                elif self.key_hist[1] == pew.K_DOWN:
                     gate = gate + 'y'
                 else:
                     gate = gate + 'z'
-                
+
                 self.state = propagate_statevector(self.state, make_circuit(gate))
                 screen = make_image(self.state)
                 self.key_hist = []
