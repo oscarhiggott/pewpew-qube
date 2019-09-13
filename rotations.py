@@ -78,7 +78,7 @@ def make_image(state):
         for j in range(4):
             image.append(blocks[2*i][j] + blocks[2*i+1][j])
     
-    return image
+    return tuple(tuple(x) for x in image)
     
     
     
