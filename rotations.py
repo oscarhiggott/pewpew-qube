@@ -39,7 +39,14 @@ def make_circuit(gate):
     return qc
 
 def rot90(block):
-    return list(zip(*reversed(block)))
+    res = []
+    for i in range(len(block)):
+        transposed = []
+        for col in block:
+            transposed.append(col[i])
+        transposed.reverse()
+        res.append(transposed)
+    return res
 
 def make_block(c_num):
     amp = sqrt(c_num[0]*c_num[0] + c_num[1]*c_num[1])
