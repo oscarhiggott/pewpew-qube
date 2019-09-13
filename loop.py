@@ -15,6 +15,50 @@ class instruction_set_H_CX:
        return screen
 """
 
+start_screen_1 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,3,3,0,0,0),
+    (0,0,0,3,3,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+))
+
+start_screen_2 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,3,3,3,3,0,0),
+    (0,0,3,2,2,3,0,0),
+    (0,0,3,2,2,3,0,0),
+    (0,0,3,3,3,3,0,0),
+    (0,0,0,0,0,0,0,0),
+    (0,0,0,0,0,0,0,0),
+))
+
+start_screen_3 = pew.Pix.from_iter((
+    (0,0,0,0,0,0,0,0),
+    (0,3,3,3,3,3,3,0),
+    (0,3,2,2,2,2,3,0),
+    (0,3,2,1,1,2,3,0),
+    (0,3,2,1,1,2,3,0),
+    (0,3,2,2,2,2,3,0),
+    (0,3,3,3,3,3,3,0),
+    (0,0,0,0,0,0,0,0),
+))
+
+start_screen_4 = pew.Pix.from_iter((
+    (3,3,3,3,3,3,3,3),
+    (3,2,2,2,2,2,2,3),
+    (3,2,1,1,1,1,2,3),
+    (3,2,1,0,0,1,2,3),
+    (3,2,1,0,0,1,2,3),
+    (3,2,1,1,1,1,2,3),
+    (3,2,2,2,2,2,2,3),
+    (3,3,3,3,3,3,3,3),
+))
+
 final_screen_1 = pew.Pix.from_iter((
     (1,0,0,0,0,0,0,1),
     (0,2,0,0,0,0,2,0),
@@ -77,6 +121,20 @@ def main_loop(ins):
     """
     # initialize PewPew console
     pew.init()
+
+    # Load start screens
+    pew.show(start_screen_1)
+    pew.tick(0.2)
+    pew.show(start_screen_2)
+    pew.tick(0.2)
+    pew.show(start_screen_3)
+    pew.tick(0.2)
+    pew.show(start_screen_4)
+    pew.tick(0.2)
+    pew.show(final_screen_5)
+    pew.tick(0.5)
+    # pew.show(ins.goal_screen)
+    # pew.tick(1)
     
     # initialization stage
     pew.show(ins.get_current_screen())
