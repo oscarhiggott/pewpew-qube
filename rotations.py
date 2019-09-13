@@ -1,16 +1,14 @@
 import pew
-from aether import QuantumCircuit, execute
-from math import pi
+from aether import QuantumCircuit
+from math import pi, atan2
 from propagate_statevector import propagate_statevector
 
 pew.init()
 screen = pew.Pix()
 
-qc = QuantumCircuit(2)
-
-gate = 'xx'
-
 def make_circuit(gate):
+    qc = QuantumCircuit(2)
+    
     if gate[0] == 'x':
         qc.h(0)
     elif gate[0] == 'y':
@@ -39,8 +37,11 @@ def make_circuit(gate):
     
     return qc
 
+def rot90(block):
+    return list(zip(*reversed(block)))
+
 def make_block(c_num):
-    amp, phi = (abs(x), math.atan2(x.imag, x.real))
+    amp, phi = (abs(c_num), atan2(c_num.imag, c_num.real))
     
     if amp < 0.01:
         phi = 0
@@ -55,24 +56,29 @@ def make_block(c_num):
         block = [[0,0,0,1],[0,0,0,1],[0,0,0,1],[0,0,0,1]]
     
     if 1.4 < phi < 1.7:
-        block = np.rot90(block)
+        block = rot90(block)
     elif 3< phi < 3.2:
-        block = np.rot90(block)
-        block = np.rot90(block)
+        block = rot90(block)
+        block = rot90(block)
     elif -1.5 > phi > -1.7:
-        block = np.rot90(block)
-        block = np.rot90(block)
-        block = np.rot90(block)
+        block = rot90(block)
+        block = rot90(block)
+        block = rot90(block)
     
     return block
 
 def make_image(state):
-
+    blocks = []
+    for num in state:
+        blocks.append(make_block(num[0] + num[1]*1j))
     
+    image = []
     
+    for i in range(2):
+        for j in range(4):
+            image.append(blocks[2*i][j] + blocks[2*i+1][j])
     
-    
-    
+    return tuple(tuple(x) for x in image)
     
     
     
