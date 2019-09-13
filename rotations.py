@@ -42,7 +42,7 @@ def rot90(block):
     return list(zip(*reversed(block)))
 
 def make_block(c_num):
-    amp, phi = (abs(c_num), atan2(c_num.imag, c_num.real))
+    amp, phi = (norm(c_num), atan2(c_num[1], c_num[0]))
     
     if amp < 0.01:
         phi = 0
@@ -71,7 +71,7 @@ def make_block(c_num):
 def make_image(state):
     blocks = []
     for num in state:
-        blocks.append(make_block(num[0] + num[1]*1j))
+        blocks.append(make_block(num))
     
     image = []
     
