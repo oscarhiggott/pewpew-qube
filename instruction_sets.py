@@ -34,15 +34,11 @@ LEVELS = {
     },
     1: {
         'gates': H_CNOT_GATES,
-        'length': 3
+        'length': 11
     },
     2: {
-        'gates': H_CNOT_GATES,
-        'length': 10
-    },
-    3: {
         'gates': ALL_GATES,
-        'length': 5
+        'length': 11
     }
 }
 
