@@ -2,7 +2,7 @@ import random
 from aether import QuantumCircuit, simulate
 import pew
 
-from goal_displays import IBMQ
+from displays import IBMQ
 from permute_screen import update, state_to_permindices
 from propagate_statevector import propagate_statevector
 

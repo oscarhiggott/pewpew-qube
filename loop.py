@@ -1,4 +1,5 @@
 import pew
+from displays import start_screens, BLANK, final_screens
 
 """
 THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
@@ -14,100 +15,7 @@ class instruction_set_H_CX:
        return screen
 """
 
-start_screen_1 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
 
-start_screen_2 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,3,3,3,3,0,0),
-    (0,0,3,2,2,3,0,0),
-    (0,0,3,2,2,3,0,0),
-    (0,0,3,3,3,3,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
-
-start_screen_3 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,3,3,3,3,3,3,0),
-    (0,3,2,2,2,2,3,0),
-    (0,3,2,1,1,2,3,0),
-    (0,3,2,1,1,2,3,0),
-    (0,3,2,2,2,2,3,0),
-    (0,3,3,3,3,3,3,0),
-    (0,0,0,0,0,0,0,0),
-))
-
-start_screen_4 = pew.Pix.from_iter((
-    (3,3,3,3,3,3,3,3),
-    (3,2,2,2,2,2,2,3),
-    (3,2,1,1,1,1,2,3),
-    (3,2,1,0,0,1,2,3),
-    (3,2,1,0,0,1,2,3),
-    (3,2,1,1,1,1,2,3),
-    (3,2,2,2,2,2,2,3),
-    (3,3,3,3,3,3,3,3),
-))
-
-final_screen_1 = pew.Pix.from_iter((
-    (1,0,0,0,0,0,0,1),
-    (0,2,0,0,0,0,2,0),
-    (0,0,3,0,0,3,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,3,0,0,3,0,0),
-    (0,2,0,0,0,0,2,0),
-    (1,0,0,0,0,0,0,1),
-))
-final_screen_2 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,1,0,0,0,0,1,0),
-    (0,0,2,0,0,2,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,2,0,0,2,0,0),
-    (0,1,0,0,0,0,1,0),
-    (0,0,0,0,0,0,0,0),
-))
-final_screen_3 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,1,0,0,1,0,0),
-    (0,0,0,2,2,0,0,0),
-    (0,0,0,2,2,0,0,0),
-    (0,0,1,0,0,1,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
-final_screen_4 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,1,1,0,0,0),
-    (0,0,0,1,1,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
-final_screen_5 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
 
 
 def main_loop(ins):
@@ -121,15 +29,10 @@ def main_loop(ins):
     pew.init()
 
     # Load start screens
-    pew.show(start_screen_1)
-    pew.tick(0.2)
-    pew.show(start_screen_2)
-    pew.tick(0.2)
-    pew.show(start_screen_3)
-    pew.tick(0.2)
-    pew.show(start_screen_4)
-    pew.tick(0.2)
-    pew.show(final_screen_5)
+    for start_screen in start_screens:
+        pew.show(pew.Pix.from_iter(start_screen))
+        pew.tick(0.2)
+    pew.show(pew.Pix.from_iter(BLANK))
     pew.tick(0.5)
     
     # initialization stage
@@ -177,13 +80,8 @@ def main_loop(ins):
         
     # the program has been terminated. 
     # display the final sequence
-    pew.show(final_screen_1)
-    pew.tick(0.2)
-    pew.show(final_screen_2)
-    pew.tick(0.2)
-    pew.show(final_screen_3)
-    pew.tick(0.2)
-    pew.show(final_screen_4)
-    pew.tick(0.2)
-    pew.show(final_screen_5)
+    for final_screen in final_screens:
+        pew.show(pew.Pix.from_iter(final_screen))
+        pew.tick(0.2)
+    pew.show(pew.Pix.from_iter(BLANK))
     pew.tick(0.2)
