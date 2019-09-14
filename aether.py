@@ -12,7 +12,7 @@ class QuantumCircuit:
     return c3
   def initialize(c,k):
     c.data.clear()
-    c.data.append(('init',list(k)))
+    c.data.append(('init',[e for e in k]))
   def x(c,q):
     c.data.append(('x',q))
   def rx(c,T,q):
@@ -36,8 +36,8 @@ def simulate(c,shots=1024,get='counts'):
   k[0] = (1.0,0.0)
   for gate in c.data:
     if gate[0]=='init':
-      if not isinstance(gate[1][0],(list,tuple)):
-        k = [(e,0) for e in gate[1]]
+      if not isinstance(gate[1][0], (list, tuple)):
+        k = [[e,0] for e in gate[1]]
       else:
         k = [e for e in gate[1]]
     elif gate[0]=='x':

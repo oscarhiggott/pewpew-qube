@@ -1,4 +1,4 @@
-from loop      import main_loop
+from loop import main_loop
 from rotations import instruction_set_XYZ
 
 #TODO:

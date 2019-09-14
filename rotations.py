@@ -127,24 +127,23 @@ def make_image(state):
 
 
 def random_state():
-    qc = QuantumCircuit(2)
     state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     
     for i in range(5):
         gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,8)]
         qc = make_circuit(gate)
         state = propagate_statevector(state, qc)
-    print("random state", state)
+    # print("random state", state)
     return state
 
 
 class instruction_set_XYZ:
+    
     def __init__(self):
         self.key_hist = []
-        self.state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
+        self.state = random_state()
 
-
-    def key_pressed(self, key, screen):
+    def key_pressed(self, key):
         if key == pew.K_UP:
             self.key_hist = []
         elif key == pew.K_LEFT or key == pew.K_DOWN or key == pew.K_RIGHT:
@@ -165,31 +164,9 @@ class instruction_set_XYZ:
                     gate = gate + 'z'
 
                 self.state = propagate_statevector(self.state, make_circuit(gate))
-                print ("new state", self.state)
-                screen = make_image(self.state)
                 self.key_hist = []
         elif key == pew.K_X:
             self.__init__()
-            screen = self.initialization(screen)
 
-        return screen
-
-
-    def initialization(self,screen):
-        self.state = random_state()
-        screen = make_image(self.state)
-
-        return screen
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    def get_current_screen(self):
+        return make_image(self.state)

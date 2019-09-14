@@ -1,70 +1,22 @@
 import pew
-from aether import QuantumCircuit, simulate
+from displays import start_screens, BLANK, final_screens
 
-# THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
-#class instruction_set_H_CX:
-#    def __init__(self):
-#        pass
-#    
-#    def key_pressed(self, key, screen):
-#        print (key)
-#        return screen
-#
-#    def initialization(self,screen):
-#        return screeen
+"""
+THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
+class instruction_set_H_CX:
+   def __init__(self):
+       self.state = <initial_state>
 
-final_screen_1 = pew.Pix.from_iter((
-    (1,0,0,0,0,0,0,1),
-    (0,2,0,0,0,0,2,0),
-    (0,0,3,0,0,3,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,3,0,0,3,0,0),
-    (0,2,0,0,0,0,2,0),
-    (1,0,0,0,0,0,0,1),
-))
-final_screen_2 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,1,0,0,0,0,1,0),
-    (0,0,2,0,0,2,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,0,3,3,0,0,0),
-    (0,0,2,0,0,2,0,0),
-    (0,1,0,0,0,0,1,0),
-    (0,0,0,0,0,0,0,0),
-))
-final_screen_3 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,1,0,0,1,0,0),
-    (0,0,0,2,2,0,0,0),
-    (0,0,0,2,2,0,0,0),
-    (0,0,1,0,0,1,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
-final_screen_4 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,1,1,0,0,0),
-    (0,0,0,1,1,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
-final_screen_5 = pew.Pix.from_iter((
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-    (0,0,0,0,0,0,0,0),
-))
+   def key_pressed(self, key):
+       # Update self.state here
+       
+   def get_current_screen(self):
+       # Calculate screen using current self.state
+       return screen
+"""
 
-    
+
+
 
 def main_loop(ins):
     """
@@ -75,16 +27,20 @@ def main_loop(ins):
     """
     # initialize PewPew console
     pew.init()
-    screen = pew.Pix()
+
+    # Load start screens
+    for start_screen in start_screens:
+        pew.show(pew.Pix.from_iter(start_screen))
+        pew.tick(0.2)
+    pew.show(pew.Pix.from_iter(BLANK))
+    pew.tick(0.5)
     
     # initialization stage
-    screen = ins.initialization(screen)
-    pew.show(screen)
+    pew.show(ins.get_current_screen())
 
     # flags used throughout the loop
     bool_loop = True
-    keys      = 0 
-    old_keys  = 0
+    old_keys = 0
     
     while bool_loop:
         # get the pressed keys
@@ -108,9 +64,10 @@ def main_loop(ins):
             elif keys & pew.K_O:
                 value = pew.K_O
                 bool_loop = False
-    
-            # call instruction set here
-            screen = ins.key_pressed(value, screen)
+            else:
+                value = 0
+
+            ins.key_pressed(value)
     
         elif keys == 0:
             # this is necessary to be able to push 
@@ -118,18 +75,13 @@ def main_loop(ins):
             old_keys = keys
     
         # update the screen and wait for 100ms
-        pew.show(screen) 
+        pew.show(ins.get_current_screen())
         pew.tick(0.02)
         
     # the program has been terminated. 
     # display the final sequence
-    pew.show(final_screen_1)
-    pew.tick(0.2)
-    pew.show(final_screen_2)
-    pew.tick(0.2)
-    pew.show(final_screen_3)
-    pew.tick(0.2)
-    pew.show(final_screen_4)
-    pew.tick(0.2)
-    pew.show(final_screen_5)
+    for final_screen in final_screens:
+        pew.show(pew.Pix.from_iter(final_screen))
+        pew.tick(0.2)
+    pew.show(pew.Pix.from_iter(BLANK))
     pew.tick(0.2)

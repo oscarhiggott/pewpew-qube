@@ -1,64 +1,36 @@
+import random
+import time
 import pew
-import aether
-from math import atan2, pi, sqrt
+from displays import qiskit_images
 
 
-OFFSETS = ((0, 0), (4, 0), (0, 4), (4, 4))
-PERM_MAP = {
-    0: 0,
-    -1: 1,
-    -2: 2,
-    2: 2,
-    1: 3
-}
-PI2 = pi/2
-
-
-def polar_to_permindices(r, theta):
-    return round(r * r * 4), PERM_MAP[round(theta / PI2)]
-
-def state_to_permindices(state):
-    polarvector =  ((sqrt(x * x + y * y), atan2(y, x)) for x, y in state)
-    return [polar_to_permindices(r, theta) for r, theta in polarvector]
-
-def update(values, previous):
-    output = pew.Pix()
-    for (x_off, y_off), (shift, rot) in zip(OFFSETS, values):
-        for y in range(4):
-            for x in range(4):
-                a, b = x, y
-                for i in range(rot):
-                    a, b = 3 - b, a
-                b = (b + shift) % 4
-                output.pixel(a + x_off, b + y_off,
-                             previous.pixel(x + x_off, y + y_off))
-    return output
-
-
-def wait_for_key():
-    keys = 0
-    while not keys:
-        keys = pew.keys()
-        pew.tick(0.1)
-    while pew.keys():
-        pew.tick(0.1)
-    return keys
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
+    i = 0
+    value = 0
     pew.init()
-    screen = pew.Pix()
-    screen.pixel(0, 0, 3)
-    screen.pixel(4, 4, 3)
-    screen.pixel(0, 4, 3)
-    screen.pixel(4, 0, 3)
+    while not value:
+        keys = pew.keys()
+        if keys & pew.K_UP:
+            value = 1
+        elif keys & pew.K_RIGHT:
+            value = 2
+        elif keys & pew.K_DOWN:
+            value = 3
+        elif keys & pew.K_LEFT:
+            value = 4
 
-    qc = aether.QuantumCircuit(2,2)
-    qc.h(0)
-    qc.h(1)
-    state = aether.simulate(qc, get='statevector')
+        animation = (0,0,1,1,2,2,3,3,2,2,1,1)
+        i = (i + 1) % len(animation)
+        screen = qiskit_images[animation[i]]
+        pew.show(pew.Pix.from_iter(screen))
+        pew.tick(0.1)
 
-    while True:
-        pew.show(screen)
-        keys = wait_for_key()
-        screen = update(state_to_permindices(state), screen)
+    random.seed(int(time.monotonic()*1000))
+    from loop import main_loop
+    if value == 1:
+        from rotations import instruction_set_XYZ
+        main_loop(instruction_set_XYZ())
+    else:
+        from instruction_sets import InstructionSet
+        from displays import IBMQ
+        main_loop(InstructionSet(level=value-2, goal=IBMQ))
