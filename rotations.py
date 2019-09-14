@@ -133,7 +133,7 @@ def random_state():
         gate = ['xx','xy','xz','yx','yz','yy','zx','zy','zz'][randint(0,8)]
         qc = make_circuit(gate)
         state = propagate_statevector(state, qc)
-    print("random state", state)
+    # print("random state", state)
     return state
 
 

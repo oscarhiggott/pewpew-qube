@@ -173,7 +173,7 @@ def main_loop(ins):
     
         # update the screen and wait for 100ms
         pew.show(ins.get_current_screen())
-        pew.tick(0.05)
+        pew.tick(0.02)
         
     # the program has been terminated. 
     # display the final sequence
