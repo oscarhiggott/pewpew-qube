@@ -127,7 +127,6 @@ def make_image(state):
 
 
 def random_state():
-    qc = QuantumCircuit(2)
     state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
     
     for i in range(5):
@@ -142,7 +141,7 @@ class instruction_set_XYZ:
     
     def __init__(self):
         self.key_hist = []
-        self.state = [[1.0,0.0],[0.0,0.0],[0.0,0.0],[0.0,0.0]]
+        self.state = random_state()
 
     def key_pressed(self, key):
         if key == pew.K_UP:
@@ -170,5 +169,4 @@ class instruction_set_XYZ:
             self.__init__()
 
     def get_current_screen(self):
-        self.state = random_state()
         return make_image(self.state)
