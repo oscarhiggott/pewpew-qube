@@ -1,6 +1,5 @@
 import pew
 
-
 """
 THIS IS THE GENERAL STRUCTURE OF AN INSTRUCTION SET
 class instruction_set_H_CX:
@@ -110,7 +109,6 @@ final_screen_5 = pew.Pix.from_iter((
     (0,0,0,0,0,0,0,0),
 ))
 
-    
 
 def main_loop(ins):
     """
@@ -133,8 +131,6 @@ def main_loop(ins):
     pew.tick(0.2)
     pew.show(final_screen_5)
     pew.tick(0.5)
-    # pew.show(ins.goal_screen)
-    # pew.tick(1)
     
     # initialization stage
     pew.show(ins.get_current_screen())
@@ -163,7 +159,8 @@ def main_loop(ins):
             elif keys & pew.K_UP:
                 value = pew.K_UP
             elif keys & pew.K_O:
-                break
+                value = pew.K_O
+                bool_loop = False
             else:
                 value = 0
 
