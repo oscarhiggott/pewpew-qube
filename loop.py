@@ -16,8 +16,6 @@ class instruction_set_H_CX:
 """
 
 
-
-
 def main_loop(ins):
     """
     main loop of the program. Takes an instruction
