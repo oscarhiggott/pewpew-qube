@@ -35,12 +35,13 @@ _KEYMAP = {
     pygame.K_RIGHT: K_RIGHT,
 }
 
+SIZE = 120
 
 def init():
     global _display, _clock, _keys
 
     pygame.display.init()
-    _display = pygame.display.set_mode((320, 320))
+    _display = pygame.display.set_mode((SIZE * 8, SIZE * 8))
     _clock = pygame.time.Clock()
     _keys = 0x00
 
@@ -55,7 +56,7 @@ def show(pix):
     for y in range(8):
         for x in range(8):
             pygame.draw.rect(_display, _PALETTE[pix.pixel(x, y) & 0x03],
-                             (x * 40 + 2, y * 40 + 2, 36, 36), 0)
+                             (x * SIZE + SIZE / 20, y * SIZE + SIZE / 20, 0.9 * SIZE, 0.9 * SIZE), 0)
     pygame.display.flip()
 
 
