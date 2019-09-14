@@ -66,6 +66,9 @@ if __name__ == "__main__":
         pew.show(pew.Pix.from_iter(screen))
         pew.tick(0.1)
 
+    while pew.keys():
+        pew.tick(0.1)
+
     random.seed(int(time.monotonic()*1000))
     del qiskit_images
     from loop import main_loop
