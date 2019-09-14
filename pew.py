@@ -35,7 +35,8 @@ _KEYMAP = {
     pygame.K_RIGHT: K_RIGHT,
 }
 
-SIZE = 120
+SIZE = 60
+
 
 def init():
     global _display, _clock, _keys

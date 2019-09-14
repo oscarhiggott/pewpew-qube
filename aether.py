@@ -1,29 +1,39 @@
-import random
-from math import cos,sin,pi
+from math import cos,sin
 r2=0.70710678118
+
+
 class QuantumCircuit:
+
   def __init__(c,n,m=0):
     c.n=n
     c.m=m
     c.data=[]
+
   def __add__(c,c2):
     c3=QuantumCircuit(max(c.n,c2.n),max(c.m,c2.m))
     c3.data=c.data+c2.data
     return c3
+
   def initialize(c,k):
     c.data.clear()
     c.data.append(('init',[e for e in k]))
+
   def x(c,q):
     c.data.append(('x',q))
+
   def rx(c,T,q):
     c.data.append(('r',T,q))
+
   def h(c,q):
     c.data.append(('h',q))
+
   def cx(c,s,t):
     c.data.append(('cx',t))
+
   def measure(c,q,b):
     assert(b<c.m)
     c.data.append(('m',q,b))
+  
 def simulate(c,shots=1024,get='counts'):
   def s(x,y):
     return [r2*(x[j]+y[j])for j in range(2)],[r2*(x[j]-y[j])for j in range(2)]
