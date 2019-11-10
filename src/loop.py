@@ -96,7 +96,7 @@ final_screens = ((
                      (0, 0, 0, 0, 0, 0, 0, 0),
 ))
 
-BLANK = (
+blank_screen = (
     (0, 0, 0, 0, 0, 0, 0, 0),
     (0, 0, 0, 0, 0, 0, 0, 0),
     (0, 0, 0, 0, 0, 0, 0, 0),
@@ -122,7 +122,7 @@ def main_loop(ins):
     for start_screen in start_screens:
         pew.show(pew.Pix.from_iter(start_screen))
         pew.tick(0.2)
-    pew.show(pew.Pix.from_iter(BLANK))
+    pew.show(pew.Pix.from_iter(blank_screen))
     pew.tick(0.5)
     
     # initialization stage
@@ -162,7 +162,7 @@ def main_loop(ins):
             # a button twice in a row
             old_keys = keys
     
-        # update the screen and wait for 100ms
+        # update the screen and wait for 20ms
         pew.show(ins.get_current_screen())
         pew.tick(0.02)
         
@@ -171,5 +171,5 @@ def main_loop(ins):
     for final_screen in final_screens:
         pew.show(pew.Pix.from_iter(final_screen))
         pew.tick(0.2)
-    pew.show(pew.Pix.from_iter(BLANK))
+    pew.show(pew.Pix.from_iter(blank_screen))
     pew.tick(0.2)

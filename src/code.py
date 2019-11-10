@@ -46,10 +46,12 @@ if __name__ == "__main__":
             (0, 3, 3, 3, 3, 3, 3, 0)
         )
     )
-    i = 0
-    value = 0
-    pew.init()
+    i = 0      # frame counter
+    value = 0  # holds the selected level (0 = none)
+    pew.init() # initialize the PewPew console
+
     while not value:
+        # check for pressed keys
         keys = pew.keys()
         if keys & pew.K_UP:
             value = 1
@@ -59,19 +61,30 @@ if __name__ == "__main__":
             value = 3
         elif keys & pew.K_LEFT:
             value = 4
-
+        
+        # display the next frame of the animation
         animation = (0,0,1,1,2,2,3,3,2,2,1,1)
         i = (i + 1) % len(animation)
         screen = qiskit_images[animation[i]]
         pew.show(pew.Pix.from_iter(screen))
+
+        # wait 0.1 seconds
         pew.tick(0.1)
 
+    # freeze the screen while a button is pressed
     while pew.keys():
         pew.tick(0.1)
 
+    # initialize the random-number generator
     random.seed(int(time.monotonic()*1000))
+
+    # unload unnecessary objects to save RAM
     del qiskit_images
+
+    # load the new main loop
     from loop import main_loop
+
+    # execute the new main loop passing to it the selected level
     if value == 1:
         from rotations import instruction_set_XYZ
         main_loop(instruction_set_XYZ())

@@ -56,7 +56,7 @@ def make_block(c_num):
     phi = atan2(c_num[1], c_num[0])
     
     if amp < 0.01:
-       phi = 0
+        phi = 0
     
     scenario = 0
     phases = [0.0, pi4, -pi4, 2.0*pi4, -2.0*pi4, 3.0*pi4, -3.0*pi4, 4.0*pi4, -4.0*pi4]
@@ -120,14 +120,20 @@ def random_state():
 class instruction_set_XYZ:
     
     def __init__(self):
+        # history of pushed keys
         self.key_hist = []
+        # current state vector
         self.state = random_state()
 
     def key_pressed(self, key):
         if key == pew.K_UP:
+            # forget all pushed buttons
             self.key_hist = []
         elif key == pew.K_LEFT or key == pew.K_DOWN or key == pew.K_RIGHT:
+            # append button to history
             self.key_hist.append(key)
+
+            # if two buttons have been pressed, determine the corresponding transformation
             if len(self.key_hist) == 2:
                 if self.key_hist[0] == pew.K_LEFT:
                     gate = 'x'
@@ -142,10 +148,14 @@ class instruction_set_XYZ:
                     gate = gate + 'y'
                 else:
                     gate = gate + 'z'
-
+                
+                # update the state vector
                 self.state = propagate_statevector(self.state, make_circuit(gate))
+
+                # clear the history of pushed buttons
                 self.key_hist = []
         elif key == pew.K_X:
+            # restart the level
             self.__init__()
 
     def get_current_screen(self):
